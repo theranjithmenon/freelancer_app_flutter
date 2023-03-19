@@ -168,6 +168,7 @@ class _LogInPageState extends State<LogInPage> {
             children: [
               _backBtn(),
               MaterialButton(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                 onPressed: () {
                   _forwardNav();
                 },
@@ -286,6 +287,7 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   _showSnack(msg, color) {
+
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(msg),
       behavior: SnackBarBehavior.floating,
