@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../connections/connections.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -8,13 +9,16 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
+
   late PageController pageController;
+
   late bool user;
+
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController passwordConfirm = TextEditingController();
-
+  
   @override
   void initState() {
     pageController = PageController()
@@ -92,6 +96,7 @@ class _LogInPageState extends State<LogInPage> {
                 shape:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
                 onPressed: () {
+                  user = true;
                   _forwardNav();
                 },
                 child: Text("I'm a Freelancer".toUpperCase()),
@@ -107,6 +112,7 @@ class _LogInPageState extends State<LogInPage> {
                     borderRadius: BorderRadius.circular(25)),
                 height: 45,
                 onPressed: () {
+                  user = false;
                   _forwardNav();
                 },
                 child: Text("I want to Hire".toUpperCase()),
@@ -168,7 +174,8 @@ class _LogInPageState extends State<LogInPage> {
             children: [
               _backBtn(),
               MaterialButton(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
                 onPressed: () {
                   _forwardNav();
                 },
@@ -271,6 +278,8 @@ class _LogInPageState extends State<LogInPage> {
   _loginValidation() {
     if (email.text == '' || password.text == '') {
       _showSnack('Fill the details !!', Colors.redAccent);
+    } else {
+      ConnectionToServer().crossCheckUser(email.text, password.text, context);
     }
   }
 
@@ -280,14 +289,15 @@ class _LogInPageState extends State<LogInPage> {
         password.text == '' ||
         passwordConfirm.text == '') {
       _showSnack('Fill the details !!', Colors.redAccent);
-    }
-    if (password.text != passwordConfirm.text) {
+    } else if (password.text != passwordConfirm.text) {
       _showSnack('Passwords don\'t match', Colors.orangeAccent);
+    } else {
+      ConnectionToServer().registerUser(name.text, email.text,
+          (user) ? 'Freelancer' : 'Client', password.text, context);
     }
   }
 
   _showSnack(msg, color) {
-
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(msg),
       behavior: SnackBarBehavior.floating,

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project/screens/login.dart';
+import 'package:get/get.dart';
+import 'controller/login_controller.dart';
+import 'screens/home/nav_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -10,13 +14,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logInController = Get.put(LogInController());
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const LogInPage(),
+      home: Obx(() {
+        return (logInController.isLoggedIn.value)
+            ? const MainNavScreen()
+            : const LogInPage();
+      }),
     );
   }
 }
