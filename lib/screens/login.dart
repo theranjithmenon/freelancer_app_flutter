@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../conatants/colors.dart';
 import '../connections/connections.dart';
 
 class LogInPage extends StatefulWidget {
@@ -9,7 +10,6 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-
   late PageController pageController;
 
   late bool user;
@@ -18,7 +18,7 @@ class _LogInPageState extends State<LogInPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController passwordConfirm = TextEditingController();
-  
+
   @override
   void initState() {
     pageController = PageController()
@@ -105,7 +105,7 @@ class _LogInPageState extends State<LogInPage> {
                 height: 15,
               ),
               MaterialButton(
-                color: Colors.black,
+                color: ThemeColors().btnColor,
                 textColor: Colors.white,
                 minWidth: double.infinity,
                 shape: RoundedRectangleBorder(
@@ -160,7 +160,7 @@ class _LogInPageState extends State<LogInPage> {
           MaterialButton(
             minWidth: double.infinity,
             height: 45,
-            color: Colors.black,
+            color: ThemeColors().btnColor,
             textColor: Colors.white,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
@@ -245,7 +245,7 @@ class _LogInPageState extends State<LogInPage> {
           MaterialButton(
             minWidth: double.infinity,
             height: 45,
-            color: Colors.black,
+            color: ThemeColors().btnColor,
             textColor: Colors.white,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),

@@ -5,7 +5,6 @@ import 'controller/login_controller.dart';
 import 'screens/home/nav_screen.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
