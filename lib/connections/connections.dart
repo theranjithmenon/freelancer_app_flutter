@@ -10,8 +10,8 @@ class ConnectionToServer {
     final logInController = Get.put(LogInController());
 
   // this is the ip adddress of the connected internet.
-  static String ipData = '192.168.1.34';
-
+  static String ipData = '192.168.76.77';
+   late var prefs;
   //add user to the table 'user'
   registerUser(name, email, type, password, context) async {
     var data = {
@@ -27,7 +27,7 @@ class ConnectionToServer {
       _snackBar('Email is already registered',context);
     }
     else{
-      logInController.logIn();
+      // logInController.logIn();
     }
   }
 

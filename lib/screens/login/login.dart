@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../conatants/colors.dart';
-import '../connections/connections.dart';
+import '../../conatants/colors.dart';
+import '../../connections/connections.dart';
+import 'add_details.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -18,6 +19,7 @@ class _LogInPageState extends State<LogInPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController passwordConfirm = TextEditingController();
+  TextEditingController otp = TextEditingController();
 
   @override
   void initState() {
@@ -72,7 +74,12 @@ class _LogInPageState extends State<LogInPage> {
       child: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: [_whichUser(), _logInPage(), _signUpPage()],
+        children: [
+          _whichUser(),
+          _logInPage(),
+          _signUpPage(),
+          _emailVerification()
+        ],
       ),
     );
   }
@@ -250,9 +257,61 @@ class _LogInPageState extends State<LogInPage> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
             onPressed: () {
-              _signupValidation();
+              if (_signupValidation()) {
+                _forwardNav();
+              }
             },
             child: const Text('Sign Up'),
+          ),
+          _backBtn()
+        ],
+      ),
+    );
+  }
+
+  _emailVerification() {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            'Verification',
+            style: TextStyle(fontSize: 35),
+          ),
+          Text('We have sent an OTP to ${email.text}'),
+          const SizedBox(
+            height: 35,
+          ),
+          TextField(
+            controller: otp,
+            textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.messenger_outline),
+                hintText: 'OTP here'),
+          ),
+          const Spacer(),
+          MaterialButton(
+            minWidth: double.infinity,
+            height: 45,
+            color: ThemeColors().btnColor,
+            textColor: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+            onPressed: () {
+              ConnectionToServer().registerUser(name.text, email.text,
+                  (user) ? 'Freelancer' : 'Client', password.text, context);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddUserDetails(userType: user)));
+            },
+            child: const Text('Verify'),
+          ),
+          const SizedBox(
+            height: 35,
           ),
           _backBtn()
         ],
@@ -289,11 +348,12 @@ class _LogInPageState extends State<LogInPage> {
         password.text == '' ||
         passwordConfirm.text == '') {
       _showSnack('Fill the details !!', Colors.redAccent);
+      return false;
     } else if (password.text != passwordConfirm.text) {
       _showSnack('Passwords don\'t match', Colors.orangeAccent);
+      return false;
     } else {
-      ConnectionToServer().registerUser(name.text, email.text,
-          (user) ? 'Freelancer' : 'Client', password.text, context);
+      return true;
     }
   }
 
