@@ -303,10 +303,14 @@ class _LogInPageState extends State<LogInPage> {
             onPressed: () {
               ConnectionToServer().registerUser(name.text, email.text,
                   (user) ? 'Freelancer' : 'Client', password.text, context);
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddUserDetails(userType: user)));
+                      builder: (context) => AddUserDetails(
+                            userType: user,
+                            email: email.text,
+                            name: name.text,
+                          )));
             },
             child: const Text('Verify'),
           ),
